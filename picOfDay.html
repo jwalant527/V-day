@@ -4,27 +4,65 @@
     <meta charset="UTF-8" />
     <title>Pic of the Day</title>
     <style>
+      /* Global Styles */
       body {
-        font-family: Arial, sans-serif;
-        padding: 20px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
       }
+      /* Container Card */
       .container {
+        background: rgba(255, 255, 255, 0.85);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 30px;
         max-width: 600px;
-        margin: 0 auto;
+        width: 90%;
+        text-align: center;
       }
-      img {
-        width: 100%;
+      h1 {
         margin-bottom: 20px;
-        border: 1px solid #ccc;
+        color: #333;
       }
+      p {
+        color: #555;
+        margin: 10px 0;
+      }
+      /* Image Styling */
+      img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+      }
+      /* File Input */
       input[type="file"] {
-        display: block;
         margin-bottom: 10px;
+        padding: 5px;
       }
+      /* Button Styling */
       button {
+        background-color: #ff6f61;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
         padding: 10px 20px;
         font-size: 1rem;
         cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-bottom: 20px;
+      }
+      button:hover {
+        background-color: #e65b50;
+      }
+      /* Uploaded Section */
+      .uploaded-section {
+        margin-top: 20px;
       }
     </style>
   </head>
@@ -32,12 +70,14 @@
     <div class="container">
       <h1>Pic of the Day</h1>
       <p>Below is our default picture:</p>
-      <img id="defaultPic" src="jb.jpg" alt="Default Picture" />
+      <img id="defaultPic" src="defaultPic.jpg" alt="Default Picture" />
       <p>Upload your own picture:</p>
       <input type="file" id="fileInput" accept="image/*" />
       <button id="uploadButton">Upload Picture</button>
-      <h2>Your Uploaded Picture:</h2>
-      <img id="uploadedPic" src="" alt="Uploaded Picture" />
+      <div class="uploaded-section">
+        <h2>Your Uploaded Picture:</h2>
+        <img id="uploadedPic" src="" alt="Uploaded Picture" />
+      </div>
     </div>
 
     <script>
