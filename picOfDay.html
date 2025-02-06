@@ -64,20 +64,33 @@
       .uploaded-section {
         margin-top: 20px;
       }
+      /* New "I Love You" Button - Initially hidden */
+      .love-button {
+        background-color: #f5576c;
+        margin-top: 30px;
+        display: none;
+      }
+      .love-button:hover {
+        background-color: #e04f62;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <h1>Pic of the Day</h1>
-      <p>Below is our default picture:</p>
+      <p>Here I am...</p>
       <img id="defaultPic" src="jb.jpg" alt="Default Picture" />
-      <p>Upload your own picture:</p>
+      <p>Click a picture, and upload it here:</p>
       <input type="file" id="fileInput" accept="image/*" />
       <button id="uploadButton">Upload Picture</button>
       <div class="uploaded-section">
         <h2>Your Uploaded Picture:</h2>
         <img id="uploadedPic" src="" alt="Uploaded Picture" />
       </div>
+      <!-- "I Love You" Button, initially hidden -->
+      <button class="love-button" id="loveButton">
+        Say I Love You to your favorite person Here!!!
+      </button>
     </div>
 
     <script>
@@ -85,6 +98,7 @@
       const fileInput = document.getElementById("fileInput");
       const uploadButton = document.getElementById("uploadButton");
       const uploadedPic = document.getElementById("uploadedPic");
+      const loveButton = document.getElementById("loveButton");
 
       let selectedFile = null;
       fileInput.addEventListener("change", (e) => {
@@ -117,10 +131,17 @@
             console.log("Upload successful:", data);
             // The secure URL of the uploaded image is in data.secure_url
             uploadedPic.src = data.secure_url;
+            // Show the "I Love You" button after successful upload
+            loveButton.style.display = "inline-block";
           })
           .catch((error) => {
             console.error("Error uploading image:", error);
           });
+      });
+
+      // When the "I Love You" button is clicked, navigate to the love page.
+      loveButton.addEventListener("click", () => {
+        window.location.href = "love.html";
       });
     </script>
   </body>
