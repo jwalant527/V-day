@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pic of the Day</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      img {
+        width: 100%;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+      }
+      input[type="file"] {
+        display: block;
+        margin-bottom: 10px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Pic of the Day</h1>
+      <p>Below is our default picture:</p>
+      <img id="defaultPic" src="jb.jpg" alt="Default Picture" />
+      <p>Upload your own picture:</p>
+      <input type="file" id="fileInput" accept="image/*" />
+      <button id="uploadButton">Upload Picture</button>
+      <h2>Your Uploaded Picture:</h2>
+      <img id="uploadedPic" src="" alt="Uploaded Picture" />
+    </div>
+
+    <script>
+      // Get DOM references
+      const fileInput = document.getElementById("fileInput");
+      const uploadButton = document.getElementById("uploadButton");
+      const uploadedPic = document.getElementById("uploadedPic");
+
+      let selectedFile = null;
+      fileInput.addEventListener("change", (e) => {
+        selectedFile = e.target.files[0];
+      });
+
+      uploadButton.addEventListener("click", () => {
+        if (!selectedFile) {
+          alert("Please select a file first.");
+          return;
+        }
+
+        // Configure Cloudinary parameters:
+        const cloudName = "dtxazs0ps"; // Replace with your Cloudinary cloud name
+        const unsignedUploadPreset = "unsigned upload"; // Replace with your unsigned upload preset
+
+        // Cloudinary unsigned upload URL
+        const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+        formData.append("upload_preset", unsignedUploadPreset);
+
+        // Upload to Cloudinary
+        fetch(url, {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Upload successful:", data);
+            // The secure URL of the uploaded image is in data.secure_url
+            uploadedPic.src = data.secure_url;
+          })
+          .catch((error) => {
+            console.error("Error uploading image:", error);
+          });
+      });
+    </script>
+  </body>
+</html>

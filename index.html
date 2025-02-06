@@ -21,7 +21,7 @@
         font-family: Arial, sans-serif;
         scroll-behavior: smooth;
       }
-      /* Section Styles (stacked vertically) */
+      /* Stack sections vertically */
       .section {
         width: 100%;
         min-height: 100vh;
@@ -40,29 +40,51 @@
       }
       /* Rose Day Screen */
       #roseDay {
+        position: relative;
+        color: white;
+        overflow: hidden;
+      }
+      /* Create a blurred background using a pseudo-element */
+      #roseDay::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         background: url("rose.jpg") no-repeat center center;
         background-size: cover;
-        color: white;
-        position: relative;
-        transition: background 1s ease;
+        filter: blur(5px);
+        z-index: -1;
       }
-      /* Text overlay on roseDay for readability */
-      #roseDay .text-overlay {
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(5px);
+      /* Content overlay for Rose Day Screen */
+      #roseDay .content {
+        position: relative;
         padding: 20px;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(2px);
         border-radius: 10px;
         max-width: 80%;
       }
       /* Elegant, larger text for roseDay */
       #roseDay h1 {
-        font-family: "Playfair Display", serif;
+        font-family: 'Playfair Display', serif;
         font-size: 3rem;
         margin-bottom: 20px;
       }
       #roseDay p {
         font-size: 1.5rem;
         margin-bottom: 20px;
+      }
+      /* Style for the "Pic of the day" button */
+      #picDayBtn {
+        padding: 10px 20px;
+        font-size: 1.2rem;
+        background-color: #e60073;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
       }
       /* Landing Page Text Sizing */
       #landing h1 {
@@ -79,11 +101,7 @@
         animation: bounce 2s infinite;
       }
       @keyframes bounce {
-        0%,
-        20%,
-        50%,
-        80%,
-        100% {
+        0%, 20%, 50%, 80%, 100% {
           transform: translateY(0);
         }
         40% {
@@ -105,22 +123,25 @@
 
     <!-- Rose Day Screen -->
     <div id="roseDay" class="section">
-      <div class="text-overlay">
+      <div class="content">
         <h1>Happy Rose Day!</h1>
         <p>
           "A rose speaks of love silently, in a language known only to the
           heart."
         </p>
+        <!-- New Button to navigate to the third page -->
+        <button id="picDayBtn">Pic of the day</button>
       </div>
     </div>
 
     <script>
       // Track whether the user has seen the Rose Day screen.
       let hasSeenRoseDay = false;
-      const landing = document.getElementById("landing");
       const landingHeader = document.getElementById("landingHeader");
       const landingMessage = document.getElementById("landingMessage");
+      const landing = document.getElementById("landing");
       const roseDay = document.getElementById("roseDay");
+      const picDayBtn = document.getElementById("picDayBtn");
 
       // For touch devices: detect a swipe on the landing page.
       let startY = null;
@@ -140,6 +161,11 @@
       // For desktop users: clicking the landing page scrolls down.
       landing.addEventListener("click", function () {
         scrollToSection(roseDay);
+      });
+
+      // Clicking the Pic of the day button sends you to picOfDay.html.
+      picDayBtn.addEventListener("click", function () {
+        window.location.href = "picOfDay.html";
       });
 
       // Smooth scroll function.
