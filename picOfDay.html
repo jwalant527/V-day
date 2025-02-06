@@ -2,9 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Mobile-friendly meta tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Pic of the Day</title>
     <style>
-      /* Global Styles */
+      /* Base Styles */
+      * {
+        box-sizing: border-box;
+      }
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background: linear-gradient(135deg, #ff9a9e, #fad0c4);
@@ -14,64 +19,82 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-      }
-      /* Container Card */
-      .container {
-        background: rgba(255, 255, 255, 0.85);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        padding: 30px;
-        max-width: 600px;
-        width: 90%;
-        text-align: center;
-      }
-      h1 {
-        margin-bottom: 20px;
         color: #333;
       }
-      p {
-        color: #555;
-        margin: 10px 0;
+      /* Container optimized for mobile */
+      .container {
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+        padding: 25px 20px;
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+        animation: fadeIn 1s ease;
       }
-      /* Image Styling */
+      h1 {
+        margin-bottom: 15px;
+        font-size: 2.2rem;
+        font-weight: 700;
+      }
+      p {
+        margin: 10px 0;
+        font-size: 1.2rem;
+        line-height: 1.4;
+      }
+      /* Image styling with smooth fade-in */
       img {
+        width: 100%;
         max-width: 100%;
         border-radius: 10px;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         border: 1px solid #ddd;
+        opacity: 0;
+        animation: fadeIn 1s forwards;
       }
-      /* File Input */
+      /* File input and buttons */
       input[type="file"] {
-        margin-bottom: 10px;
-        padding: 5px;
+        width: 100%;
+        margin-bottom: 15px;
+        padding: 8px;
+        font-size: 1rem;
       }
-      /* Button Styling */
       button {
         background-color: #ff6f61;
         color: #fff;
         border: none;
         border-radius: 5px;
-        padding: 10px 20px;
-        font-size: 1rem;
+        padding: 12px 20px;
+        font-size: 1.2rem;
+        font-weight: 600;
         cursor: pointer;
-        transition: background-color 0.3s ease;
-        margin-bottom: 20px;
+        transition: transform 0.2s ease, background-color 0.3s ease;
+        margin-bottom: 15px;
       }
       button:hover {
         background-color: #e65b50;
+        transform: scale(1.03);
       }
-      /* Uploaded Section */
+      /* Uploaded section */
       .uploaded-section {
         margin-top: 20px;
       }
-      /* New "I Love You" Button - Initially hidden */
+      /* "I Love You" button, initially hidden */
       .love-button {
         background-color: #f5576c;
-        margin-top: 30px;
         display: none;
       }
       .love-button:hover {
         background-color: #e04f62;
+      }
+      /* Fade-in keyframes */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
     </style>
   </head>
@@ -79,12 +102,20 @@
     <div class="container">
       <h1>Pic of the Day</h1>
       <p>Here I am...</p>
-      <img id="defaultPic" src="jb.jpg" alt="Default Picture" />
-      <p>Click a picture, and upload it here:</p>
+      <!-- Default picture -->
+      <img
+        id="defaultPic"
+        src="jb.jpg"
+        alt="Default Picture"
+        style="opacity: 1"
+      />
+      <p>Choose a picture and upload it:</p>
       <input type="file" id="fileInput" accept="image/*" />
       <button id="uploadButton">Upload Picture</button>
       <div class="uploaded-section">
-        <h2>Your Uploaded Picture:</h2>
+        <h2 style="font-size: 1.4rem; margin-bottom: 10px">
+          Your Uploaded Picture:
+        </h2>
         <img id="uploadedPic" src="" alt="Uploaded Picture" />
       </div>
       <!-- "I Love You" Button, initially hidden -->
@@ -94,7 +125,7 @@
     </div>
 
     <script>
-      // Get DOM references
+      // DOM elements
       const fileInput = document.getElementById("fileInput");
       const uploadButton = document.getElementById("uploadButton");
       const uploadedPic = document.getElementById("uploadedPic");
@@ -111,11 +142,11 @@
           return;
         }
 
-        // Configure Cloudinary parameters:
-        const cloudName = "dtxazs0ps"; // Replace with your Cloudinary cloud name
-        const unsignedUploadPreset = "unsigned upload"; // Replace with your unsigned upload preset
+        // Cloudinary configuration:
+        const cloudName = "dtxazs0ps"; // Your Cloudinary cloud name
+        const unsignedUploadPreset = "unsignedupload"; // Replace with your unsigned upload preset (avoid spaces)
 
-        // Cloudinary unsigned upload URL
+        // Cloudinary upload URL
         const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
         const formData = new FormData();
         formData.append("file", selectedFile);
@@ -129,8 +160,9 @@
           .then((response) => response.json())
           .then((data) => {
             console.log("Upload successful:", data);
-            // The secure URL of the uploaded image is in data.secure_url
+            // Set uploaded image src and force fade-in (via CSS animation)
             uploadedPic.src = data.secure_url;
+            uploadedPic.style.animation = "fadeIn 1s forwards";
             // Show the "I Love You" button after successful upload
             loveButton.style.display = "inline-block";
           })
@@ -139,7 +171,7 @@
           });
       });
 
-      // When the "I Love You" button is clicked, navigate to the love page.
+      // Navigate to the love page when the button is clicked.
       loveButton.addEventListener("click", () => {
         window.location.href = "love.html";
       });
