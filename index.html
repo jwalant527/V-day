@@ -135,7 +135,7 @@
         background-color: #c5005f;
         transform: scale(1.05);
       }
-      /* Animations */
+      /* Fade-in and Slide-up Animations */
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -173,6 +173,36 @@
           padding: 10px 20px;
         }
       }
+      /* Rose Shower Effect */
+      /* Container for falling roses (positioned absolutely inside #roseDay) */
+      #roseShower {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      /* Each falling rose */
+      .rose {
+        position: absolute;
+        top: -50px;
+        /* The animation 'fall' will be defined below */
+        animation-name: fall;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
+      }
+      @keyframes fall {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(110vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
     </style>
   </head>
   <body>
@@ -184,6 +214,8 @@
     </div>
     <!-- Rose Day Screen -->
     <div id="roseDay" class="section">
+      <!-- Container for the rose shower (will be populated via JS) -->
+      <div id="roseShower"></div>
       <div class="content">
         <h1>Happy Rose Day, meri cutiepie!</h1>
         <p>
@@ -241,6 +273,64 @@
             "Check back here tomorrow for your next surprise... :)";
         }
       });
+
+      // --- Rose Shower Effect ---
+      // Use Intersection Observer to trigger the rose shower once the Rose Day section is in view.
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          if (entries[0].isIntersecting) {
+            startRoseShower();
+            obs.unobserve(roseDay);
+          }
+        },
+        { threshold: 0.5 }
+      );
+      observer.observe(roseDay);
+
+      // Function to start the rose shower effect for 5 seconds.
+      function startRoseShower() {
+        const showerContainer = document.getElementById("roseShower");
+        // Create falling roses at regular intervals.
+        const interval = setInterval(() => {
+          createFallingRose(showerContainer);
+        }, 200); // Every 200ms
+        // Stop creating new roses after 5 seconds.
+        setTimeout(() => {
+          clearInterval(interval);
+          // Optionally, remove the shower container after a few extra seconds.
+          setTimeout(() => {
+            if (showerContainer.parentNode) {
+              showerContainer.parentNode.removeChild(showerContainer);
+            }
+          }, 3000);
+        }, 5000);
+      }
+
+      // Function to create a single falling rose element.
+      function createFallingRose(container) {
+        const rose = document.createElement("img");
+        rose.src = "rose.png"; // Make sure you have a 'rose.png' image in your folder.
+        rose.className = "rose";
+        // Randomize horizontal starting position (0% to 100%)
+        const randomLeft = Math.random() * 100;
+        rose.style.left = randomLeft + "%";
+        // Randomize animation duration between 3 and 5 seconds.
+        const duration = 3 + Math.random() * 2;
+        rose.style.animationDuration = duration + "s";
+        // Randomize a slight delay (0 to 0.5s) so not all roses start at once.
+        const delay = Math.random() * 0.5;
+        rose.style.animationDelay = delay + "s";
+        // Randomize size (width 20px to 40px)
+        const size = 20 + Math.random() * 20;
+        rose.style.width = size + "px";
+        container.appendChild(rose);
+        // Remove the rose element when its animation ends.
+        rose.addEventListener("animationend", () => {
+          if (rose.parentNode === container) {
+            container.removeChild(rose);
+          }
+        });
+      }
     </script>
   </body>
 </html>
