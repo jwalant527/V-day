@@ -2,6 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Mobile-only meta tag for proper scaling -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Valentine's Surprise</title>
     <!-- Import an elegant Google Font for the Rose Day text -->
     <link
@@ -19,32 +21,65 @@
       body {
         min-height: 100%;
         font-family: Arial, sans-serif;
+        background: #fff;
         scroll-behavior: smooth;
+        overflow-x: hidden;
       }
-      /* Stack sections vertically */
+      /* Section Styles */
       .section {
         width: 100%;
         min-height: 100vh;
+        padding: 20px;
         display: flex;
         flex-direction: column;
-        align-items: center;
         justify-content: center;
+        align-items: center;
         text-align: center;
-        padding: 20px;
+        position: relative;
       }
-      /* Landing Page */
+      /* Landing Page (Mobile Optimized) */
       #landing {
         background: linear-gradient(135deg, #f093fb, #f5576c);
-        color: white;
-        transition: background-color 1s ease, color 1s ease;
+        color: #fff;
+        animation: fadeIn 1s ease;
       }
-      /* Rose Day Screen */
+      #landing h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+      #landing p {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+      }
+      /* Swipe Indicator with smooth bounce animation */
+      .swipe-indicator {
+        font-size: 2.5rem;
+        animation: bounce 2s infinite;
+      }
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(8px);
+        }
+        60% {
+          transform: translateY(4px);
+        }
+      }
+      /* Rose Day Screen Styling */
       #roseDay {
+        background: #000;
         position: relative;
-        color: white;
+        color: #fff;
         overflow: hidden;
       }
-      /* Create a blurred background using a pseudo-element */
+      /* Blurred Background Image via Pseudo-element */
       #roseDay::before {
         content: "";
         position: absolute;
@@ -55,60 +90,87 @@
         background: url("rose.jpg") no-repeat center center;
         background-size: cover;
         filter: blur(5px);
+        opacity: 0.8;
         z-index: -1;
+        animation: fadeInBg 1s ease;
       }
-      /* Content overlay for Rose Day Screen */
+      @keyframes fadeInBg {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 0.8;
+        }
+      }
+      /* Content overlay for Rose Day */
       #roseDay .content {
-        position: relative;
-        padding: 20px;
-        background: rgba(0, 0, 0, 0.4);
+        background: rgba(0, 0, 0, 0.45);
         backdrop-filter: blur(2px);
         border-radius: 10px;
-        max-width: 80%;
+        padding: 20px;
+        max-width: 90%;
+        animation: slideUp 1s ease;
       }
-      /* Elegant, larger text for roseDay */
       #roseDay h1 {
-        font-family: 'Playfair Display', serif;
+        font-family: "Playfair Display", serif;
         font-size: 3rem;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
       }
       #roseDay p {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         margin-bottom: 20px;
       }
-      /* Style for the "Pic of the day" button */
+      /* "Pic of the day" Button Styling */
       #picDayBtn {
-        padding: 10px 20px;
-        font-size: 1.2rem;
+        padding: 12px 24px;
+        font-size: 1.4rem;
         background-color: #e60073;
         border: none;
-        border-radius: 5px;
-        color: white;
+        border-radius: 8px;
+        color: #fff;
         cursor: pointer;
+        transition: transform 0.2s ease, background-color 0.3s ease;
       }
-      /* Landing Page Text Sizing */
-      #landing h1 {
-        font-size: 2.5rem;
-        margin-bottom: 20px;
+      #picDayBtn:hover {
+        background-color: #c5005f;
+        transform: scale(1.05);
       }
-      #landing p {
-        font-size: 1.5rem;
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
-      /* Swipe/Scroll Indicator */
-      .swipe-indicator {
-        margin-top: 20px;
-        font-size: 2rem;
-        animation: bounce 2s infinite;
-      }
-      @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% {
+      @keyframes slideUp {
+        from {
+          transform: translateY(40px);
+          opacity: 0;
+        }
+        to {
           transform: translateY(0);
+          opacity: 1;
         }
-        40% {
-          transform: translateY(10px);
+      }
+      /* Mobile-only adjustments */
+      @media (max-width: 480px) {
+        #landing h1 {
+          font-size: 2.2rem;
         }
-        60% {
-          transform: translateY(5px);
+        #landing p {
+          font-size: 1.3rem;
+        }
+        #roseDay h1 {
+          font-size: 2.8rem;
+        }
+        #roseDay p {
+          font-size: 1.4rem;
+        }
+        #picDayBtn {
+          font-size: 1.3rem;
+          padding: 10px 20px;
         }
       }
     </style>
@@ -116,26 +178,24 @@
   <body>
     <!-- Landing Page -->
     <div id="landing" class="section">
-      <h1 id="landingHeader">Hello Priyu...</h1>
+      <h1 id="landingHeader">PRIYUUUUUUUUU</h1>
       <p id="landingMessage">Swipe down to see your surprise!</p>
       <div class="swipe-indicator">↓</div>
     </div>
-
     <!-- Rose Day Screen -->
     <div id="roseDay" class="section">
       <div class="content">
         <h1>Happy Rose Day!</h1>
         <p>
-          "A rose speaks of love silently, in a language known only to the
-          heart."
+          "Violets are blue, Roses are thorny, I think of you, and I get....."
         </p>
-        <!-- New Button to navigate to the third page -->
+        <!-- Button to navigate to the next page -->
         <button id="picDayBtn">Pic of the day</button>
       </div>
     </div>
 
     <script>
-      // Track whether the user has seen the Rose Day screen.
+      // Flag to track if the Rose Day screen was seen
       let hasSeenRoseDay = false;
       const landingHeader = document.getElementById("landingHeader");
       const landingMessage = document.getElementById("landingMessage");
@@ -143,45 +203,38 @@
       const roseDay = document.getElementById("roseDay");
       const picDayBtn = document.getElementById("picDayBtn");
 
-      // For touch devices: detect a swipe on the landing page.
+      // Touch detection for mobile swipe on the landing page
       let startY = null;
-      landing.addEventListener("touchstart", function (e) {
+      landing.addEventListener("touchstart", (e) => {
         startY = e.touches[0].clientY;
       });
-      landing.addEventListener("touchmove", function (e) {
+      landing.addEventListener("touchmove", (e) => {
         if (startY === null) return;
-        let currentY = e.touches[0].clientY;
-        let diffY = currentY - startY;
+        const diffY = e.touches[0].clientY - startY;
         if (diffY > 100) {
           scrollToSection(roseDay);
           startY = null;
         }
       });
-
-      // For desktop users: clicking the landing page scrolls down.
-      landing.addEventListener("click", function () {
+      // Also allow tap on landing to scroll down
+      landing.addEventListener("click", () => {
         scrollToSection(roseDay);
       });
-
-      // Clicking the Pic of the day button sends you to picOfDay.html.
-      picDayBtn.addEventListener("click", function () {
+      // When the button is clicked, navigate to picOfDay.html
+      picDayBtn.addEventListener("click", () => {
         window.location.href = "picOfDay.html";
       });
-
-      // Smooth scroll function.
+      // Smooth scroll function
       function scrollToSection(section) {
         section.scrollIntoView({ behavior: "smooth" });
         if (section === roseDay) {
           hasSeenRoseDay = true;
         }
       }
-
-      // Listen for scroll events to update landing page content when scrolling back up.
-      window.addEventListener("scroll", function () {
-        // When near the top and the user has already seen the Rose Day screen,
-        // update the landing content.
+      // Update landing page text when scrolling back to top
+      window.addEventListener("scroll", () => {
         if (window.pageYOffset < 50 && hasSeenRoseDay) {
-          landingHeader.textContent = ""; // Remove "Hello Priyu..."
+          landingHeader.textContent = "";
           landingMessage.textContent =
             "Check back here tomorrow for your next surprise... :)";
         }
